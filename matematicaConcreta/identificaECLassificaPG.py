@@ -20,4 +20,11 @@ def identificaEClassificaPG(sequencia):
         return 'P.G. Estacionária'
 
         
-print(identificaEClassificaPG([]))
+print(identificaEClassificaPG([2,4,4,0,2,3]))
+print(identificaEClassificaPG([2,4,8,16,32]))
+print(identificaEClassificaPG([1,1/3,1/9,1/27]))
+print(identificaEClassificaPG([-4,-2,-1,-0.5]))
+print(identificaEClassificaPG([-4,-8,-16,-32]))
+print(identificaEClassificaPG([5,5,5,5,5]))
+print(identificaEClassificaPG([3,-3,3,-3,3]))
+

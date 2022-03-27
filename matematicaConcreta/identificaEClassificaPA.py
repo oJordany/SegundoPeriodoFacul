@@ -1,4 +1,4 @@
-def identificaPA(sequencia):
+def identificaEClassificaPA(sequencia):
     razao = sequencia[1] - sequencia[0]
     indice = 2
     while indice < len(sequencia):
@@ -12,4 +12,7 @@ def identificaPA(sequencia):
     else:
         return 'é uma P.A. crescente'
 
-print(identificaPA([2, 2, 2, 2]))
+print(identificaEClassificaPA([2, -9, 20, 0]))
+print(identificaEClassificaPA([2, 2, 2, 2]))
+print(identificaEClassificaPA([0, -2, -4, -6]))
+print(identificaEClassificaPA([1, 3, 5, 7]))
