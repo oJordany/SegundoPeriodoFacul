@@ -95,32 +95,59 @@
 
 # #-------------------------------------------------
 
-import math
-angulo = float(input('digite um angulo em graus: '))
-rang = angulo*math.pi/180
-seno = float(f'{math.sin(rang):.2f}')
-cosseno = float(f'{math.cos(rang):.2f}')
-tangente = float(f'{math.tan(rang):.2f}')
-print(f'seno: {seno}')
-print(f"Cosseno: {cosseno:.2f}")
-if angulo%90 != 0: 
-    print(f'tangente: {tangente}')
-else:
-    print(f'tangente: nao existe')
+# import math
 
-if seno != 0:
-    print(f'cossecante: {1/seno}')
-else:
-    print(f'cossecante: não existe')
+# angulo = float(input('digite um angulo em graus: '))
+# rang = angulo*math.pi/180
+# seno = float(f'{math.sin(rang):.2f}')
+# cosseno = float(f'{math.cos(rang):.2f}')
+# tangente = float(f'{math.tan(rang):.2f}')
+# print(f'seno: {seno}')
+# print(f"Cosseno: {cosseno:.2f}")
+# if angulo%90 != 0: 
+#     print(f'tangente: {tangente}')
+# else:
+#     print(f'tangente: nao existe')
 
-if cosseno != 0:
-    print(f'secante: {1/cosseno}')
-else:
-    print(f'secante: não existe')
+# if seno != 0:
+#     print(f'cossecante: {1/seno}')
+# else:
+#     print(f'cossecante: não existe')
 
-if tangente != 0 and angulo%90 != 0:
-    print(f'cotangente: {1/tangente}')
-else:
-    print(f'cotangente: nao existe')
+# if cosseno != 0:
+#     print(f'secante: {1/cosseno}')
+# else:
+#     print(f'secante: não existe')
+
+# if tangente != 0 and angulo%90 != 0:
+#     print(f'cotangente: {1/tangente}')
+# else:
+#     print(f'cotangente: nao existe')
     
+# print('\n')
+
+
+#-------------------------------------------------
+
+#--------------  Algoritmo 43 --------------------
+
+#-------------------------------------------------
+
+from math import log10
+
+num = float(input('entre com o logaritmando: '))
+print(f'logaritmo: {log10(num)}')
 print('\n')
+
+#-------------------------------------------------
+
+#--------------  Algoritmo 44 --------------------
+
+#-------------------------------------------------
+
+from math import log 
+
+num = float(input('entre com o logaritmando: '))
+base = float(input('entre com a base: '))
+logaritmo = log(num, base)
+print(f'logaritmo de {num} na base {base} é igual a {logaritmo}')
