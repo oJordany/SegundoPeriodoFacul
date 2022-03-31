@@ -95,20 +95,32 @@
 
 # #-------------------------------------------------
 
-from math import sin, cos, tan, pi
+import math
 angulo = float(input('digite um angulo em graus: '))
-rang = angulo*pi/180
-print(f'seno: {sin(rang)}')
-print(f'cosseno: {cos(rang)}')
+rang = angulo*math.pi/180
+seno = float(f'{math.sin(rang):.2f}')
+cosseno = float(f'{math.cos(rang):.2f}')
+tangente = float(f'{math.tan(rang):.2f}')
+print(f'seno: {seno}')
+print(f"Cosseno: {cosseno:.2f}")
 if angulo%90 != 0: 
-    print(f'tangente: {(tan(rang))}')
+    print(f'tangente: {tangente}')
 else:
     print(f'tangente: nao existe')
-if sin(rang) != 0 and cos(rang) != 0 and tan(rang) != 0:
-    print(f'cossecante: {(1/sin(rang))}')
-    print(f'secante: {(1/cos(rang))}')
-    if angulo%90 != 0:
-        print(f'cotangente: {(1/tan(rang))}')
-    else:
-        print(f'cotangente: nao existe')
+
+if seno != 0:
+    print(f'cossecante: {1/seno}')
+else:
+    print(f'cossecante: não existe')
+
+if cosseno != 0:
+    print(f'secante: {1/cosseno}')
+else:
+    print(f'secante: não existe')
+
+if tangente != 0 and angulo%90 != 0:
+    print(f'cotangente: {1/tangente}')
+else:
+    print(f'cotangente: nao existe')
+    
 print('\n')
