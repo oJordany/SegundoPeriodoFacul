@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include <string.h>
+#include <string>
 #include "funcoes.h"
 
 using namespace std;
@@ -23,7 +23,6 @@ int main() {
   // Usando a nossa funcao comprimento()
   // E usando a função strlen()
   cout << endl << "Digite uma palavra: ";
-  cin.ignore();
   cin.get(c, 81);
   cout << "com comprimento() → " <<comprimento(c) << endl;
   cout << "com strlen() → "<<strlen(c) << endl;
@@ -69,6 +68,33 @@ int main() {
   strcat(palavra1, palavra2);
   cout << "a palavra2 foi concatenada com a palavra1" << endl;
   cout << "Palavra concatenada (palavra1): " << palavra1 << endl;
-  
+
+
+  // Usando a nossa Função compara()
+  // E usando a função strcmp()
+  cout << endl;
+  char word1[81];
+  char word2[81];
+  cout << "##### Teste usando a nossa função compara() e a strcmp() #####" << endl;
+  cout << "Insira a primeira palavra a ser comparada: ";
+  cin.ignore();
+  cin.get(word1, 81);
+  cout << "Insira a segunda palavra a ser comparada: ";
+  cin.ignore();
+  cin.get(word2, 81);
+  compara(word1, word2);
+  cout << "Com a nossa função compara() → "<<compara(word1, word2) << endl;
+  cout << "Com a função strcmp() → "<<strcmp(word1, word2) << endl;
+
+
+  // Usando a nossa funcao palíndromo
+  // Detecta se uma palavra é palíndromo
+  cout << endl;
+  char palavra[81];
+  cout << "##### Teste usando a nossa função palindromo() #####" << endl;
+  cout << "Insira uma palavra para verificar se eh palindromo: " << endl;
+  cin.ignore();
+  cin.get(palavra, 81);
+  cout << palindromo(palavra) << endl;
   return 0;
 }
