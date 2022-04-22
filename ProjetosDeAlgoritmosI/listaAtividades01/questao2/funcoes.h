@@ -1,0 +1,1 @@
+void trocaLetra(char, char *, int);

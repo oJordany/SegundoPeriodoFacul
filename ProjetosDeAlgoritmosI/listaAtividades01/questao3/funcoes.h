@@ -1,0 +1,1 @@
+void localizaCaracteres(char *, char *);
