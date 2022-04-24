@@ -9,14 +9,14 @@ void localizaCaracteres(char *busca, char *cadeia){
     int indiceBusca = 0;
     int repeticoes = 0;
 
-    // loop que localiza vai localizando a busca de caractere por caractere
+    // loop que vai localizando a busca de caractere por caractere
     for (int i = 0; i <= strlen(cadeia) - strlen(busca); i++){
         for(int j = i; j < i+strlen(busca); j++){
             if (cadeia[j] != busca[indiceBusca])
                 verificador = false;
             indiceBusca++;
-            }
-            indiceBusca = 0;
+        }
+        indiceBusca = 0;
 
         if(verificador && repeticoes == 0){
             repeticoes++;
