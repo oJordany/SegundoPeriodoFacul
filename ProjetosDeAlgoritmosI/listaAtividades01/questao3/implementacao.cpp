@@ -4,10 +4,13 @@
 
 using namespace std;
 
-void localizaCaracteres(char *busca, char *cadeia){
+void localizaCaracteres(char* busca, char* cadeia){
     bool verificador = true;
     int indiceBusca = 0;
     int repeticoes = 0;
+    int indicesLocalizados[81]; 
+
+    cout << busca << endl;
 
     // loop que vai localizando a busca de caractere por caractere
     for (int i = 0; i <= strlen(cadeia) - strlen(busca); i++){
@@ -19,8 +22,8 @@ void localizaCaracteres(char *busca, char *cadeia){
         indiceBusca = 0;
 
         if(verificador && repeticoes == 0){
+            indicesLocalizados[repeticoes] =
             repeticoes++;
-            cout << "A cadeia de caracteres \"" << busca << "\" pode ser encontrada no(s) índice(s) " << i << ", ";
         }else if (verificador && repeticoes > 0){
             cout << i << ", ";
             repeticoes++;

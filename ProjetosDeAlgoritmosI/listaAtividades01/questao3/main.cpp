@@ -13,7 +13,6 @@ int main() {
   cout << "insira outra cadeia: ";
   cin.ignore();
   cin.get(caracteres, 81);
-
   localizaCaracteres(caracteres, cadeia);
   return 0;
 }
