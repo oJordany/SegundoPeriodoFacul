@@ -84,7 +84,6 @@ void Imprime (TipoLista* Lista, bool tipoDeImpressao){
     }
 } 
 
-/*Fornece o maior e o menor elemento mais o número de ocorrências dele */
 void MaisEMenosVezes(TipoLista* Lista){
   int maior = 0;
   int menor = 0;
@@ -123,6 +122,7 @@ void MaisEMenosVezes(TipoLista* Lista){
 
 }
 
+/*Fornece uma lista com os elementos mais o número de ocorrências dele */
 TipoLista* ListaElemECount(TipoLista* Lista){
   int ocorrencias = 0;
   bool verificadorDeInsercao = true;
