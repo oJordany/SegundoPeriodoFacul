@@ -1,9 +1,27 @@
 import sqlite3
 from time import sleep
+from random import randint
 
+
+
+def mostraTabelasBanco(nomeBanco):
+  con = sqlite3.connect(f'{nomeBanco}.db')
+  cur = con.cursor()
+  cur.execute('SELECT name from sqlite_master where type= "table"')
+  tabelasDoBanco = cur.fetchall()
+  print('\n')
+  if tabelasDoBanco == []:
+    print('Banco vazio')
+  else:
+    print(f'TABELAS DE \033[1;32m{nomeBanco}\033[m:')
+    for tabela in tabelasDoBanco:
+      cor = randint(31,39)
+      print(f'\033[1;{cor}m{tabela[0]}\033[m', end = '   ')
+  print('\n')
 def criaBancoETabela(nomeBanco, nomeTabela):
   con = sqlite3.connect(f'{nomeBanco}.db')
   cur = con.cursor()
+
   try:
     cur.execute(f'''CREATE TABLE {nomeTabela}
                (id integer, titulo text, autor text, ano integer, sinopse text, editora text)''')
@@ -15,6 +33,7 @@ def criaBancoETabela(nomeBanco, nomeTabela):
     sleep(2)
   con.commit()
   con.close()
+
 
 
 def printaBancoEmFormatoTabela(baseDeDados, nomeTabela, order=''):
@@ -67,6 +86,8 @@ def printaBancoEmFormatoTabela(baseDeDados, nomeTabela, order=''):
   con.close()
 
 
+
+
 def insere(baseDeDados, nomeTabela):
   con = sqlite3.connect(f'{baseDeDados}.db')
   cur = con.cursor()
@@ -86,7 +107,63 @@ def insere(baseDeDados, nomeTabela):
     else:
       dados.append(int(input(f'{r.keys()[i]}: ')))
 
-  print(dados)
   cur.execute(f'''INSERT INTO {nomeTabela} VALUES ({dados[0]}, "{dados[1]}", "{dados[2]}", {dados[3]}, "{dados[4]}", "{dados[5]}")''')
+  con.commit()
+  con.close()
+
+
+
+def atualiza(baseDeDados, nomeTabela, alteracoes, id):
+  con = sqlite3.connect(f'{baseDeDados}.db')
+  cur = con.cursor()
+  alteracoesStr =''
+  contador = 1
+  for dado, alteracao in alteracoes.items():
+    if contador < len(alteracoes):
+      if type(alteracao) == str:
+        alteracoesStr += f'''{dado} = "{alteracao}", '''
+      elif alteracao == 'NULL':
+        alteracoesStr += f'''{dado} = {alteracao} '''
+      else:
+        alteracoesStr += f'''{dado} = {alteracao}, '''
+    else:
+      if type(alteracao) == str:
+        alteracoesStr += f'''{dado} = "{alteracao}" '''
+      elif alteracao == 'NULL':
+        alteracoesStr += f'''{dado} = {alteracao} '''
+      else:
+        alteracoesStr += f'''{dado} = {alteracao} '''
+    contador += 1
+  cur.execute(f'''UPDATE {nomeTabela} SET {alteracoesStr} WHERE id = {id};''')
+  print('\033[1;32mDados Atualizados Com Sucesso...\033[m')
+  con.commit()
+  con.close()
+
+
+
+def pedeAlteracoes(baseDeDados, nomeTabela):
+  con = sqlite3.connect(f'{baseDeDados}.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  cur.execute(f'SELECT * FROM {nomeTabela}')
+  r = cur.fetchone()
+  alteracoes = dict()
+  for indice in r.keys():
+    try:
+      if indice != 'id':
+        alteracao = input(f'Insira o(a) novo(a) {indice} ou aperte ENTER para mantê-lo(a): ') if indice != 'ano' else int(input(f'Insira o(a) novo(a) {indice} ou aperte ENTER para mantê-lo(a): '))      
+      if alteracao != '':
+        alteracoes[indice] = alteracao
+    except:
+      continue
+  return alteracoes
+
+
+
+def deleta(baseDeDados, nomeTabela, id):
+  con = sqlite3.connect(f'{baseDeDados}.db')
+  cur = con.cursor()
+  cur.execute(f'''DELETE FROM {nomeTabela} WHERE id = {id}''')
+  print('\033[1;35mDados Deletados Com Sucesso...\033[m')
   con.commit()
   con.close()
