@@ -5,6 +5,7 @@ from util import criaBancoETabela
 from util import pedeAlteracoes
 from util import atualiza
 from util import deleta
+from util import busca
 
 nomeBanco = input('Insira o nome do seu banco de dados: ')
 mostraTabelasBanco(nomeBanco)
@@ -21,7 +22,8 @@ while True:
 |{"[2] - Listar dados":<30}|
 |{"[3] - Atualizar dados":<30}|
 |{"[4] - Deletar dados":<30}|
-|{"[5] - Sair da tabela":<30}|
+|{"[5] - Buscar dados":<30}|
+|{"[6] - Sair da tabela":<30}|
 +{"="*30}+''')
   opcao = input('Opção: ').strip()
   if opcao == '1':
@@ -61,6 +63,9 @@ while True:
     id = int(input('Insira o id que você quer deletar: '))
     deleta(nomeBanco, nomeTabela, id)    
   elif opcao == '5':
+    pesquisa = input('Insira o que você quer buscar: ')
+    busca(nomeBanco, nomeTabela, pesquisa)
+  elif opcao == '6':
     mostraTabelasBanco(nomeBanco)
     print(f'''+{"="*30}+
 |{"[1]- Sair do banco":<30}|

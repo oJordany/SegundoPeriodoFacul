@@ -3,7 +3,6 @@ from time import sleep
 from random import randint
 
 
-
 def mostraTabelasBanco(nomeBanco):
   con = sqlite3.connect(f'{nomeBanco}.db')
   cur = con.cursor()
@@ -34,6 +33,27 @@ def criaBancoETabela(nomeBanco, nomeTabela):
   con.commit()
   con.close()
 
+
+def printaListaEmFormatoTabela(lista):
+  #Encontrando o maior membro da tabela
+  biggestMember= 0;
+  
+  for row in lista:
+    for data in row:
+      if len(str(data)) > biggestMember:
+        biggestMember = len(str(data))
+         
+  biggestMember += 3;
+
+  # Table Header e Table Body
+  for l, row in enumerate(lista):
+    for i, data in enumerate(row):
+      if i != len(row) - 1:
+        print(f'{data}{" "*(biggestMember-len(str(data)))}|', end='')
+      else:
+        print(f'{data}{" "*(biggestMember-len(str(data)))}')
+    if l == 0:
+      print('-'*biggestMember*len(row))
 
 
 def printaBancoEmFormatoTabela(baseDeDados, nomeTabela, order=''):
@@ -86,14 +106,16 @@ def printaBancoEmFormatoTabela(baseDeDados, nomeTabela, order=''):
   con.close()
 
 
-
-
 def insere(baseDeDados, nomeTabela):
   con = sqlite3.connect(f'{baseDeDados}.db')
   cur = con.cursor()
 
-  for id in cur.execute(f'SELECT id FROM {nomeTabela}'):
-    ultimoID = id[-1]
+  cur.execute(f'SELECT id FROM {nomeTabela}')
+  ids = cur.fetchall()
+  if ids == []:
+    cur.execute(f'INSERT INTO {nomeTabela} VALUES (0, NULL, NULL, NULL, NULL, NULL)')
+  cur.execute(f'SELECT id FROM {nomeTabela}')
+  ultimoID = cur.fetchall()[-1][0]  
 
   dados = [ultimoID+1]        
   con.row_factory = sqlite3.Row
@@ -103,14 +125,26 @@ def insere(baseDeDados, nomeTabela):
 
   for i in range(1,6):
     if i != 3:
-      dados.append(input(f'{r.keys()[i]}: '))
+      dados.append(input(f'{r.keys()[i]}[ENTER para Vazio]: '))
     else:
-      dados.append(int(input(f'{r.keys()[i]}: ')))
-
-  cur.execute(f'''INSERT INTO {nomeTabela} VALUES ({dados[0]}, "{dados[1]}", "{dados[2]}", {dados[3]}, "{dados[4]}", "{dados[5]}")''')
+      try:
+        dados.append(int(input(f'{r.keys()[i]}: ')))
+      except:
+        dados.append('')
+  execute = f'INSERT INTO {nomeTabela} VALUES ('
+  for i in range(0,6):
+    if type(dados[i]) == int:
+      execute += f'''{dados[i]}, '''
+    elif dados[i] == '':
+      execute += f'''NULL, '''
+    else:
+      execute += f'''"{dados[i]}", '''
+  execute = list(execute)
+  execute[-2] = ')'
+  execute = ''.join(execute)
+  cur.execute(execute)
   con.commit()
   con.close()
-
 
 
 def atualiza(baseDeDados, nomeTabela, alteracoes, id):
@@ -140,7 +174,6 @@ def atualiza(baseDeDados, nomeTabela, alteracoes, id):
   con.close()
 
 
-
 def pedeAlteracoes(baseDeDados, nomeTabela):
   con = sqlite3.connect(f'{baseDeDados}.db')
   con.row_factory = sqlite3.Row
@@ -159,7 +192,6 @@ def pedeAlteracoes(baseDeDados, nomeTabela):
   return alteracoes
 
 
-
 def deleta(baseDeDados, nomeTabela, id):
   con = sqlite3.connect(f'{baseDeDados}.db')
   cur = con.cursor()
@@ -167,3 +199,30 @@ def deleta(baseDeDados, nomeTabela, id):
   print('\033[1;35mDados Deletados Com Sucesso...\033[m')
   con.commit()
   con.close()
+
+
+def busca(baseDeDados, nomeTabela, substring):
+  con = sqlite3.connect(f'{baseDeDados}.db')
+  cur = con.cursor()
+  con.row_factory = sqlite3.Row
+  curRow = con.cursor()
+  curRow.execute(f'''Select * FROM {nomeTabela}''')
+  r = curRow.fetchone()
+  dadosEncontrados = [r.keys()]
+  for indice in r.keys():
+    dadosIndice = list()  
+    if indice != 'id':
+      for palavra in cur.execute(f'''SELECT {indice} FROM {nomeTabela}'''):    
+        dadosIndice.append(palavra[0])
+      for palavra in dadosIndice:
+        if palavra != None and substring.lower() in str(palavra).lower():
+          if type(palavra) == str:
+            cur.execute(f'''SELECT * FROM {nomeTabela} WHERE {indice} = "{palavra}"''')
+          else:
+            cur.execute(f'''SELECT * FROM {nomeTabela} WHERE {indice} = {palavra}''')
+          dados = cur.fetchone()
+          if dados not in dadosEncontrados:
+            dadosEncontrados.append(dados)
+  
+  printaListaEmFormatoTabela(dadosEncontrados)
+          
